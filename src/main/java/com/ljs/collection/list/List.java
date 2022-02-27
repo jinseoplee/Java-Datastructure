@@ -1,15 +1,25 @@
 package com.ljs.collection.list;
 
-import com.ljs.collection.Collection;
+public interface List<T> {
 
-public interface List<T> extends Collection<T> {
+    boolean isEmpty();
+
+    int size();
 
     void addFirst(T data);
 
+    void add(T data);
+
+    void add(int index, T data);
+
     void removeFirst();
 
-    T get(int index);
+    void remove();
 
-    int size();
+    void remove(int index);
+
+    void clear();
+
+    T get(int index);
 
 }
