@@ -44,11 +44,8 @@ public class LinkedList<T> implements List<T> {
             return;
         }
 
-        Node<T> temp = head;
-        while (temp.link != null) {
-            temp = temp.link;
-        }
-        temp.link = newNode;
+        Node<T> lastNode = getLastNode();
+        lastNode.link = newNode;
         size++;
     }
 
@@ -60,10 +57,10 @@ public class LinkedList<T> implements List<T> {
         }
 
         Node<T> newNode = new Node<>(data);
-        Node<T> pre = search(index - 1);
-        Node<T> temp = search(index);
-        pre.link = newNode;
-        newNode.link = temp;
+        Node<T> preNode = search(index - 1);
+        Node<T> nextNode = search(index);
+        preNode.link = newNode;
+        newNode.link = nextNode;
         size++;
     }
 
@@ -73,9 +70,9 @@ public class LinkedList<T> implements List<T> {
             throw new RuntimeException("List is empty.");
         }
 
-        Node<T> temp = head;
+        Node<T> firstNode = head;
         head = head.link;
-        temp.link = null;
+        firstNode.link = null;
         size--;
     }
 
@@ -112,10 +109,10 @@ public class LinkedList<T> implements List<T> {
             return;
         }
 
-        Node<T> pre = search(index - 1);
-        Node<T> temp = search(index);
-        pre.link = temp.link;
-        temp.link = null;
+        Node<T> preNode = search(index - 1);
+        Node<T> deleteNode = search(index);
+        preNode.link = deleteNode.link;
+        deleteNode.link = null;
         size--;
     }
 
@@ -137,8 +134,19 @@ public class LinkedList<T> implements List<T> {
         size = 0;
     }
 
+    /*
+     * receive the index and return the node's data
+     */
     @Override
     public T get(int index) {
+        Node<T> node = search(index);
+        return node.getData();
+    }
+
+    /*
+     * receive the index and return the node
+     */
+    private Node<T> search(int index) {
         if (isEmpty()) {
             throw new RuntimeException("List is empty.");
         }
@@ -153,22 +161,15 @@ public class LinkedList<T> implements List<T> {
             idx++;
             temp = temp.link;
         }
-        return temp.getData();
+        return temp;
     }
 
-    private Node<T> search(int index) {
-        if (isEmpty()) {
-            throw new RuntimeException("List is empty.");
-        }
-
-        if (index < 0 || index > size - 1) {
-            throw new IndexOutOfBoundsException("Out of index.");
-        }
-
-        int idx = 0;
+    /*
+     * find the last node
+     */
+    private Node<T> getLastNode() {
         Node<T> temp = head;
-        while (idx != index) {
-            idx++;
+        while (temp.link != null) {
             temp = temp.link;
         }
         return temp;
