@@ -37,12 +37,14 @@ public class LinkedQueue<T> implements Queue<T> {
         Node<T> target = front;
         T data = target.getData();
 
-        front = front.link;
-        if (front == null) {
+        if (front.link == null) {
+            front = null;
             rear = null;
+        } else {
+            front = front.link;
+            target.link = null;
         }
 
-        target.link = null;
         return data;
     }
 
@@ -52,13 +54,14 @@ public class LinkedQueue<T> implements Queue<T> {
             throw new RuntimeException("Queue is empty.");
         }
 
-        Node<T> target = front;
-
-        front = front.link;
-        if (front == null) {
+        if (front.link == null) {
+            front = null;
             rear = null;
+            return;
         }
 
+        Node<T> target = front;
+        front = front.link;
         target.link = null;
     }
 
